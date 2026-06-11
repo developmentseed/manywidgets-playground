@@ -1,0 +1,25 @@
+version: 1
+project:
+  title: manywidgets playground
+  description: >-
+    Explore manywidgets patterns in notebooks and publish them as a static,
+    kernel-free interactive site.
+  github: https://github.com/developmentseed/manywidgets-playground
+  keywords: [anywidget, jupyter, widgets, lonboard, mystmd, static-export]
+  # Static-export plugin referenced by RELEASE URL — no code dependency; fetched at build.
+  plugins:
+    - https://github.com/developmentseed/myst-anywidget-static-export/releases/download/v0.3.0/plugin.mjs
+  # No `toc:` → auto-discovery. Drop a notebook in notebooks/ and it appears.
+  exclude:
+    - templates/**
+    - "**/.ipynb_checkpoints/**"
+    - README.md                       # GitHub README; index.md is the site landing page
+    - manywidgets-playground-PLAN.md  # build spec, not site content
+site:
+  template: book-theme
+  nav:
+    - title: GitHub
+      url: https://github.com/developmentseed/manywidgets-playground
+  actions:
+    - title: GitHub
+      url: https://github.com/developmentseed/manywidgets-playground

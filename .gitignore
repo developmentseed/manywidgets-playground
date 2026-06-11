@@ -1,0 +1,7 @@
+.claude/
+_build/
+.env
+**/.ipynb_checkpoints/
+**/_widget_assets/
+.venv/
+__pycache__/

@@ -1,0 +1,21 @@
+[project]
+name = "manywidgets-playground"
+version = "0.1.0"
+description = "Author and publish kernel-free interactive manywidgets notebooks to GitHub Pages."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # For now: install from git (manywidgets not yet on PyPI). lonboard interop widgets included.
+    "manywidgets[lonboard,numpy] @ git+https://github.com/developmentseed/manywidgets",
+    # When published, replace the line above with:  "manywidgets[lonboard,numpy]>=0.1",
+    "geopandas>=1.0",        # lonboard seed notebook
+    "pyarrow>=16",           # geopandas -> arrow
+    "jupyterlab>=4.2",
+    "ipykernel>=6.29",
+    "nbconvert>=7.16",
+    "mystmd>=1.3",           # pure-uv MyST CLI (bundles node)
+    "python-dotenv>=1.0",    # secrets in notebooks
+]
+
+[tool.uv]
+package = false              # this repo is an app, not a distributable wheel

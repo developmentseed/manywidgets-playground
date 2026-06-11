@@ -1,0 +1,51 @@
+name: Deploy playground to Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      # The git install of manywidgets builds its widget JS via hatch-jupyter-builder,
+      # which needs Node at install time.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Sync dependencies
+        run: uv sync --locked
+      - name: Register kernel
+        run: uv run python -m ipykernel install --user --name manywidgets-playground
+      - name: Pre-execute notebooks
+        run: uv run jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
+        env:
+          EXAMPLE_API_TOKEN: ${{ secrets.EXAMPLE_API_TOKEN }}
+      - uses: actions/configure-pages@v5
+      - name: Build MyST site
+        run: uv run myst build --html
+        env:
+          BASE_URL: /manywidgets-playground   # must equal the repo name for project Pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _build/html
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
