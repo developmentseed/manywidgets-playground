@@ -20,8 +20,9 @@ new title:
 execute:
     uv run jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
 
-# Build the static, kernel-free site (executes first for fresh widget state)
-build: execute
+# Build the static, kernel-free site from the committed (pre-executed) outputs.
+# Run `just execute` first when you want to refresh widget state.
+build:
     uv run myst build --html
 
 # Serve over HTTP (NOT file://) so widgets can dynamic-import their JS
