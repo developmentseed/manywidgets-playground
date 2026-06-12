@@ -26,12 +26,9 @@ jobs:
           node-version: "22"
       - name: Sync dependencies
         run: uv sync --locked
-      - name: Register kernel
-        run: uv run python -m ipykernel install --user --name manywidgets-playground
-      - name: Pre-execute notebooks
-        run: uv run jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
-        env:
-          EXAMPLE_API_TOKEN: ${{ secrets.EXAMPLE_API_TOKEN }}
+      # Notebooks are committed pre-executed (widget state captured locally via
+      # `just execute`). CI does NOT re-execute — it only renders the committed
+      # outputs, so notebook-specific runtime deps need not be installable here.
       - uses: actions/configure-pages@v5
       - name: Build MyST site
         run: uv run myst build --html
