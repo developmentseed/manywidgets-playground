@@ -55,6 +55,26 @@ required. The sidebar lists them alphabetically; the intended reading order is
 curated by hand in `index.md`. Prefix a filename only if you want to pin its
 position.
 
+## Python dependencies
+
+Your notebooks can import any Python packages they need. Since CI never executes
+— it only renders the committed, pre-executed outputs — those packages are needed
+only on **your machine** to run `just execute`, not by this project or CI.
+
+So install whatever a notebook needs locally, but **commit only the executed
+`.ipynb`, not the dependency**. For example, the Montandon notebooks need
+`pystac_client`:
+
+```bash
+uv add pystac_client                  # install locally so you can run the notebook
+just execute                          # bake widget state into the .ipynb
+git restore pyproject.toml uv.lock    # drop the dep — keep only the executed notebook
+```
+
+This keeps `pyproject.toml` to the shared, cross-notebook dependencies so
+`uv sync` and CI stay lean. Only add a dependency there if every contributor
+genuinely needs it.
+
 ## Secrets
 
 Secrets are used only locally while you execute notebooks (`just execute`) — use

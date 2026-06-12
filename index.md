@@ -8,7 +8,8 @@ Author [manywidgets](https://developmentseed.org/manywidgets) notebooks in
 Jupyter and publish them as a **static, kernel-free interactive site**.
 
 **Add your own:** drop an `.ipynb` into `notebooks/` → `just execute` →
-`just preview` (<http://localhost:9876>) → open a PR to publish.
+`just preview` (<http://localhost:9876>) → open a PR to publish. Full guide in the
+[README](https://github.com/developmentseed/manywidgets-playground#readme).
 
 ## Gallery
 
