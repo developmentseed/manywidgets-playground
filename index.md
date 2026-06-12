@@ -4,14 +4,12 @@ title: manywidgets playground
 
 # manywidgets playground
 
-A friction-free place to explore [manywidgets](https://github.com/developmentseed/manywidgets)
-patterns in Jupyter notebooks and publish them as a **static, kernel-free
-interactive site**. Drag a slider, toggle a layer, fly a map — all with no kernel
-running, thanks to the [`myst-anywidget-static-export`](https://github.com/developmentseed/myst-anywidget-static-export)
-plugin.
+Author [manywidgets](https://developmentseed.org/manywidgets) notebooks in
+Jupyter and publish them as a **static, kernel-free interactive site**.
 
-Clone the repo, run `just lab` to play locally, author your own notebooks in
-`notebooks/`, then push to `main` and GitHub Pages serves them.
+**Add your own:** drop an `.ipynb` into `notebooks/` → `just execute` →
+`just preview` (<http://localhost:9876>) → open a PR to publish. Full guide in the
+[README](https://github.com/developmentseed/manywidgets-playground#readme).
 
 ## Gallery
 
