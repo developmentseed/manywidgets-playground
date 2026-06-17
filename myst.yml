@@ -8,7 +8,7 @@ project:
   keywords: [anywidget, jupyter, widgets, lonboard, mystmd, static-export]
   # Static-export plugin referenced by RELEASE URL — no code dependency; fetched at build.
   plugins:
-    - https://github.com/developmentseed/myst-anywidget-static-export/releases/download/v0.3.0/plugin.mjs
+    - https://github.com/developmentseed/myst-anywidget-static-export/releases/download/v0.3.1/plugin.mjs
   # No `toc:` → auto-discovery. Drop a notebook in notebooks/ and it appears.
   exclude:
     - templates/**
