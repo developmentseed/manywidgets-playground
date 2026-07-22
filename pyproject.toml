@@ -15,6 +15,12 @@ dependencies = [
     "nbconvert>=7.16",
     "mystmd>=1.3",           # pure-uv MyST CLI (bundles node)
     "python-dotenv>=1.0",    # secrets in notebooks
+    "openpyxl>=3.1.5",
+    "requests>=2.34.2",
+    "matplotlib>=3.11.1",
+    "rasterio>=1.5.0",
+    "rio-cogeo>=7.0.2",
+    "rasterstats>=0.21.0",
 ]
 
 [tool.uv]

@@ -5,3 +5,6 @@ _build/
 **/_widget_assets/
 .venv/
 __pycache__/
+__marimo__
+.agents/
+.DS_Store
