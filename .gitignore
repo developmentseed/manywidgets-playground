@@ -6,3 +6,5 @@ _build/
 .venv/
 __pycache__/
 __marimo__
+.agents/
+.DS_Store

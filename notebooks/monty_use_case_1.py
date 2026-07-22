@@ -189,9 +189,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    from manywidgets import Dropdown
-
+def _():
     hazard_options = {
         "Overall Risk": "RISK",
         "Riverine Flood": "Flood",
@@ -200,51 +198,8 @@ def _(mo):
         "Wildfire": "Forest Fire",
     }
 
-    hazard_selector = mo.ui.anywidget(
-        Dropdown(options=list(hazard_options.keys()), value="Overall Risk", label="Hazard")
-    )
-    hazard_selector
-
-    return hazard_options, hazard_selector
-
-
-@app.cell
-def _(risk_boundaries_gdf):
-    import matplotlib
-    from lonboard import Map, PolygonLayer
-    from lonboard.colormap import apply_continuous_cmap
-
-    _vals = risk_boundaries_gdf["RISK"]
-    _normalized = (_vals - _vals.min()) / (_vals.max() - _vals.min())
-    _colors = apply_continuous_cmap(_normalized.to_numpy(), matplotlib.colormaps["YlOrRd"])
-
-    risk_layer = PolygonLayer.from_geopandas(
-        risk_boundaries_gdf,
-        get_fill_color=_colors,
-        get_line_color=[80, 80, 80],
-        line_width_min_pixels=0.5,
-        opacity=0.8,
-    )
-    risk_map = Map(risk_layer, view_state={"longitude": 35.86, "latitude": 33.95, "zoom": 7.5}, height=500)
-    risk_map
-    return apply_continuous_cmap, matplotlib, risk_layer
-
-
-@app.cell
-def _(
-    apply_continuous_cmap,
-    hazard_options,
-    hazard_selector,
-    matplotlib,
-    risk_boundaries_gdf,
-    risk_layer,
-):
-    _col = hazard_options[hazard_selector.widget.value]
-    _vals = risk_boundaries_gdf[_col]
-    _normalized = (_vals - _vals.min()) / (_vals.max() - _vals.min())
-    risk_layer.get_fill_color = apply_continuous_cmap(_normalized.to_numpy(), matplotlib.colormaps["YlOrRd"])
-
-    return
+    RISK_THRESHOLD = 4.9
+    return RISK_THRESHOLD, hazard_options
 
 
 @app.cell
@@ -284,6 +239,43 @@ def _(requests, risk_boundaries_gdf):
 
 
 @app.cell
+def _(RISK_THRESHOLD, hazard_options, mo, risk_population_gdf):
+    import matplotlib
+    from lonboard import Map, PolygonLayer
+    from lonboard.colormap import apply_continuous_cmap
+    from manywidgets.lonboard import LayerToggle
+
+    risk_layers = {}
+    for _label, _col in hazard_options.items():
+        _at_risk_gdf = risk_population_gdf[risk_population_gdf[_col] > RISK_THRESHOLD]
+        _pop = _at_risk_gdf["population"]
+        _normalized = (_pop - _pop.min()) / (_pop.max() - _pop.min())
+        _colors = apply_continuous_cmap(_normalized.to_numpy(), matplotlib.colormaps["YlOrRd"])
+        risk_layers[_label] = PolygonLayer.from_geopandas(
+            _at_risk_gdf,
+            get_fill_color=_colors,
+            get_line_color=[80, 80, 80],
+            line_width_min_pixels=0.5,
+            opacity=0.8,
+            visible=(_label == "Overall Risk"),
+        )
+
+    hazard_toggles = [
+        LayerToggle(layer=risk_layers[_label], value=(_label == "Overall Risk"), label=_label)
+        for _label in hazard_options
+    ]
+
+    risk_map = Map(
+        list(risk_layers.values()),
+        view_state={"longitude": 35.86, "latitude": 33.95, "zoom": 7.5},
+        height=500,
+    )
+
+    mo.vstack([mo.hstack(hazard_toggles, gap=2, justify="start"), risk_map])
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(r"""
     ### Population at Risk by Hazard
@@ -297,55 +289,37 @@ def _(mo):
 
     These bands are published for the global country-level index; INFORM's
     subnational methodology doesn't spell out per-indicator thresholds
-    explicitly, so treating the "High" cutoff (≥4.9) as the default
-    "at risk" threshold is a reasonable but non-official choice. The slider
-    below defaults there and is adjustable, and applies to the hazard
-    selected above.
+    explicitly, so treating the "High" cutoff (> 4.9) as the "at risk"
+    threshold is a reasonable but non-official choice, applied uniformly
+    across all five hazards. The map above and the stats below both use
+    this same fixed threshold, so both work identically with or without a
+    running kernel — toggling a layer or reading a stat never needs to
+    recompute anything live.
     """)
     return
 
 
 @app.cell
-def _(mo):
-    from manywidgets import Slider
-
-    risk_threshold = mo.ui.anywidget(
-        Slider(value=4.9, min=0, max=10, step=0.1, label="At-risk threshold (INFORM 0-10 scale; default 4.9 = 'High')")
-    )
-    risk_threshold
-
-    return (risk_threshold,)
-
-
-@app.cell
-def _(
-    hazard_options,
-    hazard_selector,
-    mo,
-    risk_population_gdf,
-    risk_threshold,
-):
+def _(RISK_THRESHOLD, hazard_options, mo, risk_population_gdf):
     from manywidgets import Stat
 
-    _col = hazard_options[hazard_selector.widget.value]
-    municipalities_at_risk_df = (
-        risk_population_gdf.loc[
-            risk_population_gdf[_col] >= risk_threshold.widget.value,
-            ["MUNICIPALITY", "DISTRICT", _col, "population"],
-        ]
-        .rename(columns={_col: "risk_score"})
-        .sort_values("population", ascending=False)
-        .reset_index(drop=True)
+    def _stat_for(_label, _col):
+        _at_risk_gdf = risk_population_gdf[risk_population_gdf[_col] > RISK_THRESHOLD]
+        return Stat(
+            label=_label,
+            value=f"{round(_at_risk_gdf['population'].sum()):,.0f}",
+            unit=f"across {len(_at_risk_gdf)} municipalities",
+        )
+
+    hazard_stats = [_stat_for(_label, _col) for _label, _col in hazard_options.items()]
+
+    mo.vstack(
+        [
+            mo.hstack(hazard_stats[:3], gap=2, justify="start"),
+            mo.hstack(hazard_stats[3:], gap=2, justify="start"),
+        ],
+        gap=2,
     )
-
-    population_at_risk_stat = Stat(
-        label=f"People at risk — {hazard_selector.widget.value} (≥ {risk_threshold.widget.value})",
-        value=f"{municipalities_at_risk_df['population'].sum():,.0f}",
-        unit=f"across {len(municipalities_at_risk_df)} of {len(risk_population_gdf)} municipalities",
-    )
-
-    mo.vstack([population_at_risk_stat, municipalities_at_risk_df])
-
     return
 
 
