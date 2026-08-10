@@ -21,6 +21,10 @@ Jupyter and publish them as a **static, kernel-free interactive site**.
 - **[Lonboard map](notebooks/lonboard-map.ipynb)** — a lonboard `Map` with a
   `LayerToggle`, a `RangeSlider` + `FilterBinder`, and a `MapFlyer` for
   geospatial DX.
+- **[Anatomy of a Firestorm](notebooks/la-fires.ipynb)** — the flagship
+  `Fullscreen` demo: a fully custom ESM web app (Palisades Fire damage explorer)
+  with a Maxar before/after imagery swipe, 30k damage-classed Overture buildings,
+  GPU filtering, 3D extrusion and linked charts — all kernel-free.
 
 New to the project? Start with **Welcome**, then crib from **Dashboard**. To make
 your own: `just new "my idea"`.
