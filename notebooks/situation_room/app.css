@@ -1,0 +1,609 @@
+/* SituationRoom — deliberately custom dark mission-control chrome. */
+
+.situation-room {
+  --sr-bg: #0a0e14;
+  --sr-panel: #131922;
+  --sr-panel-2: #10151d;
+  --sr-border: #232b37;
+  --sr-ink: #f2f4f8;
+  --sr-ink-2: #a8b2bf;
+  --sr-ink-3: #6d7683;
+  --sr-accent: #4da3ff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--sr-ink);
+}
+
+/* ── app shell ── */
+
+.situation-room .sr-app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
+  min-height: 560px;
+  background: var(--sr-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--sr-border);
+}
+
+.situation-room .sr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--sr-border);
+  background: linear-gradient(180deg, #141a23 0%, #0f141c 100%);
+  flex: 0 0 auto;
+}
+
+.situation-room .sr-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sr-accent);
+}
+
+.situation-room .sr-title {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--sr-ink);
+}
+
+.situation-room .sr-subtitle {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--sr-ink-2);
+}
+
+.situation-room .sr-head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.situation-room .sr-window {
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--sr-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.situation-room .sr-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.situation-room .sr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--sr-ink-2);
+  border: 1px solid var(--sr-border);
+  background: var(--sr-panel);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.situation-room .sr-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sr-ink-3);
+  flex: 0 0 auto;
+}
+
+/* ── body: rail | event list | map ── */
+
+.situation-room .sr-body {
+  display: grid;
+  grid-template-columns: 296px 308px minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.situation-room .sr-rail {
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-right: 1px solid var(--sr-border);
+  background: var(--sr-panel-2);
+}
+
+.situation-room .sr-section { margin: 0; }
+
+.situation-room .sr-section-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sr-ink-3);
+}
+
+/* stat tiles */
+
+.situation-room .sr-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.situation-room .sr-tile {
+  background: var(--sr-panel);
+  border: 1px solid var(--sr-border);
+  border-radius: 10px;
+  padding: 12px 12px 10px;
+}
+
+.situation-room .sr-tile-value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.situation-room .sr-tile-label {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--sr-ink-2);
+}
+
+.situation-room .sr-tile-sub {
+  margin-top: 1px;
+  font-size: 11px;
+  color: var(--sr-ink-3);
+}
+
+/* weekly pulse chart */
+
+.situation-room .sr-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 92px;
+  padding: 2px 1px 0;
+}
+
+.situation-room .sr-chart-col {
+  flex: 1 1 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.situation-room .sr-chart-stack {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: 1px;
+}
+
+.situation-room .sr-chart-seg {
+  width: 100%;
+  border-radius: 1.5px;
+  min-height: 2px;
+  transition: opacity 140ms ease;
+}
+
+.situation-room .sr-chart-seg--dim { opacity: 0.18; }
+
+.situation-room .sr-chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: var(--sr-ink-3);
+}
+
+/* tooltip */
+
+.situation-room .sr-tip {
+  position: absolute;
+  z-index: 40;
+  pointer-events: none;
+  max-width: 250px;
+  background: #080b0f;
+  border: 1px solid var(--sr-border);
+  color: var(--sr-ink);
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 6px 9px;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* chips */
+
+.situation-room .sr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.situation-room .sr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--sr-ink-2);
+  background: var(--sr-panel);
+  border: 1px solid var(--sr-border);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+
+.situation-room .sr-chip:hover { border-color: var(--sr-ink-3); }
+
+.situation-room .sr-chip--active {
+  color: var(--sr-ink);
+  border-color: var(--sr-ink-3);
+  background: #1c2530;
+}
+
+.situation-room .sr-chip--all { color: var(--sr-ink-3); }
+
+/* switches */
+
+.situation-room .sr-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--sr-ink-2);
+}
+
+.situation-room .sr-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.situation-room .sr-switch-track {
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  background: #29313d;
+  position: relative;
+  transition: background 140ms ease;
+  flex: 0 0 auto;
+}
+
+.situation-room .sr-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--sr-ink-2);
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.situation-room .sr-switch input:checked + .sr-switch-track {
+  background: var(--sr-accent);
+}
+
+.situation-room .sr-switch input:checked + .sr-switch-track .sr-switch-thumb {
+  transform: translateX(15px);
+  background: #fff;
+}
+
+/* reset button */
+
+.situation-room .sr-reset {
+  font-size: 12.5px;
+  font-family: inherit;
+  color: var(--sr-ink);
+  background: var(--sr-panel);
+  border: 1px solid var(--sr-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+  text-align: center;
+}
+
+.situation-room .sr-reset:hover {
+  border-color: var(--sr-accent);
+  background: #1c2530;
+}
+
+/* credits */
+
+.situation-room .sr-credits {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--sr-border);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.situation-room .sr-credit-link {
+  font-size: 11.5px;
+  color: var(--sr-ink-3);
+  text-decoration: none;
+}
+
+.situation-room .sr-credit-link:hover { color: var(--sr-ink-2); text-decoration: underline; }
+
+.situation-room .sr-note {
+  font-size: 11px;
+  color: var(--sr-ink-3);
+}
+
+/* ── event list column ── */
+
+.situation-room .sr-list-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--sr-border);
+  background: var(--sr-panel-2);
+}
+
+.situation-room .sr-list-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 14px 8px;
+  flex: 0 0 auto;
+}
+
+.situation-room .sr-list-head .sr-section-title { margin: 0; }
+
+.situation-room .sr-list-count {
+  font-size: 11px;
+  color: var(--sr-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.situation-room .sr-list {
+  overflow-y: auto;
+  min-height: 0;
+  padding: 0 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.situation-room .sr-event {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  background: var(--sr-panel);
+  border: 1px solid var(--sr-border);
+  border-radius: 9px;
+  padding: 9px 11px 9px 9px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.situation-room .sr-event:hover,
+.situation-room .sr-event:focus-visible {
+  border-color: var(--sr-ink-3);
+  outline: none;
+}
+
+.situation-room .sr-event--active {
+  border-color: var(--sr-accent);
+  background: #172230;
+}
+
+.situation-room .sr-event-stripe {
+  width: 3px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+  align-self: stretch;
+}
+
+.situation-room .sr-event-body { min-width: 0; flex: 1 1 auto; }
+
+.situation-room .sr-event-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.situation-room .sr-event-type {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.situation-room .sr-event-date {
+  font-size: 11px;
+  color: var(--sr-ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.situation-room .sr-event-title {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--sr-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.situation-room .sr-event-sub {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--sr-ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.situation-room .sr-event-detail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--sr-border);
+}
+
+.situation-room .sr-event-sev {
+  font-size: 11.5px;
+  color: var(--sr-ink-2);
+  line-height: 1.4;
+}
+
+.situation-room .sr-impacts {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.situation-room .sr-impact {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11.5px;
+}
+
+.situation-room .sr-impact-label { color: var(--sr-ink-2); }
+
+.situation-room .sr-impact-value {
+  color: var(--sr-ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ── map area ── */
+
+.situation-room .sr-main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: #000;
+}
+
+/* the embedded lonboard map must fill the area (scoped to .sr-main, not the
+   mount div — its class gets overwritten by the embedded widget's render) */
+.situation-room .sr-main .lonboard,
+.situation-room .sr-main .lonboard > div {
+  height: 100% !important;
+}
+
+.situation-room .sr-legend {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  max-width: 60%;
+  font-size: 11px;
+  color: var(--sr-ink-2);
+  background: rgba(8, 11, 15, 0.72);
+  border: 1px solid var(--sr-border);
+  padding: 6px 10px;
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+.situation-room .sr-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.situation-room .sr-attribution {
+  position: absolute;
+  bottom: 26px;
+  right: 10px;
+  z-index: 20;
+  font-size: 10.5px;
+  color: rgba(242, 244, 248, 0.75);
+  background: rgba(8, 11, 15, 0.6);
+  padding: 3px 8px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.situation-room .sr-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--sr-ink-3);
+}
+
+/* ── teaser card ── */
+
+.situation-room .sr-teaser {
+  background: linear-gradient(145deg, #131922 0%, #0e141c 55%, #101720 100%);
+  border: 1px solid var(--sr-border);
+  border-radius: 12px;
+  padding: 22px 24px 18px;
+  max-width: 640px;
+}
+
+.situation-room .sr-teaser-title {
+  margin-top: 6px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--sr-ink);
+}
+
+.situation-room .sr-teaser-sub {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: var(--sr-ink-2);
+  max-width: 52ch;
+}
+
+.situation-room .sr-teaser-stats {
+  display: flex;
+  gap: 26px;
+  margin-top: 18px;
+}
+
+.situation-room .sr-teaser-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.situation-room .sr-teaser-stat-label {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--sr-ink-2);
+}
+
+.situation-room .sr-teaser-hint {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--sr-border);
+  font-size: 12.5px;
+  color: var(--sr-ink-3);
+}

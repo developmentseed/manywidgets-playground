@@ -25,6 +25,11 @@ Jupyter and publish them as a **static, kernel-free interactive site**.
   `Fullscreen` demo: a fully custom ESM web app (Palisades Fire damage explorer)
   with a Maxar before/after imagery swipe, 30k damage-classed Overture buildings,
   GPU filtering, 3D extrusion and linked charts — all kernel-free.
+- **[Global Disaster Situation Room](notebooks/situation-room.ipynb)** — a second
+  custom-ESM `Fullscreen` app: 90 days of GDACS events from the IFRC Montandon
+  STAC API in a mission-control UI — event log with impact details, hazard-type
+  filters, weekly pulse chart, hazard footprints and NASA night lights, camera
+  fly-tos — all kernel-free.
 
 New to the project? Start with **Welcome**, then crib from **Dashboard**. To make
 your own: `just new "my idea"`.

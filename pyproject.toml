@@ -20,6 +20,7 @@ dependencies = [
     "rasterio>=1.5.0",
     "rio-cogeo>=7.0.2",
     "rasterstats>=0.21.0",
+    "pystac-client>=0.8",    # Montandon STAC API (monty_* + situation-room notebooks)
 ]
 
 [tool.uv]
