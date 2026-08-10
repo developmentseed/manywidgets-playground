@@ -5,9 +5,8 @@ description = "Author and publish kernel-free interactive manywidgets notebooks 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    # For now: install from git (manywidgets not yet on PyPI). lonboard interop widgets included.
-    "manywidgets[lonboard,numpy] @ git+https://github.com/developmentseed/manywidgets",
-    # When published, replace the line above with:  "manywidgets[lonboard,numpy]>=0.1",
+    # 0.2.0a1 = first PyPI release with the Fullscreen widget + MapCompare.
+    "manywidgets[lonboard,numpy]>=0.2.0a1",
     "geopandas>=1.0",        # lonboard seed notebook
     "pyarrow>=16",           # geopandas -> arrow
     "jupyterlab>=4.2",

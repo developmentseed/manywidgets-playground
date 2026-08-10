@@ -1,0 +1,486 @@
+/* FireExplorer — deliberately custom dark chrome (not manywidgets-themed). */
+
+.fire-explorer {
+  --fx-bg: #0f1216;
+  --fx-panel: #171b21;
+  --fx-panel-2: #15181d;
+  --fx-border: #262c35;
+  --fx-ink: #f2f4f8;
+  --fx-ink-2: #aab3bf;
+  --fx-ink-3: #6f7883;
+  --fx-accent: #ec835a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--fx-ink);
+}
+
+/* ── app shell ── */
+
+.fire-explorer .fx-app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
+  min-height: 540px;
+  background: var(--fx-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--fx-border);
+}
+
+.fire-explorer .fx-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--fx-border);
+  background: linear-gradient(180deg, #181c22 0%, #14171c 100%);
+  flex: 0 0 auto;
+}
+
+.fire-explorer .fx-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fx-accent);
+}
+
+.fire-explorer .fx-title {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fx-ink);
+}
+
+.fire-explorer .fx-subtitle {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--fx-ink-2);
+}
+
+.fire-explorer .fx-badges {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.fire-explorer .fx-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--fx-ink-2);
+  border: 1px solid var(--fx-border);
+  background: var(--fx-panel);
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.fire-explorer .fx-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--fx-ink-3);
+  flex: 0 0 auto;
+}
+
+.fire-explorer .fx-badge--before .fx-dot { background: #8a94a0; }
+.fire-explorer .fx-badge--after .fx-dot { background: var(--fx-accent); }
+
+/* ── body: rail + map ── */
+
+.fire-explorer .fx-body {
+  display: grid;
+  grid-template-columns: 332px minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.fire-explorer .fx-rail {
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-right: 1px solid var(--fx-border);
+  background: var(--fx-panel-2);
+}
+
+.fire-explorer .fx-section { margin: 0; }
+
+.fire-explorer .fx-section-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fx-ink-3);
+}
+
+/* stat tiles */
+
+.fire-explorer .fx-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fire-explorer .fx-tile {
+  background: var(--fx-panel);
+  border: 1px solid var(--fx-border);
+  border-radius: 10px;
+  padding: 12px 12px 10px;
+}
+
+.fire-explorer .fx-tile-value {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fire-explorer .fx-tile-label {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--fx-ink-2);
+}
+
+.fire-explorer .fx-tile-sub {
+  margin-top: 1px;
+  font-size: 11px;
+  color: var(--fx-ink-3);
+}
+
+/* damage bar chart */
+
+.fire-explorer .fx-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fire-explorer .fx-bar-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 56px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 3px 4px;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.fire-explorer .fx-bar-row:hover,
+.fire-explorer .fx-bar-row:focus-visible {
+  background: rgba(255, 255, 255, 0.05);
+  outline: none;
+}
+
+.fire-explorer .fx-bar-row--dim { opacity: 0.35; }
+
+.fire-explorer .fx-bar-label {
+  font-size: 12px;
+  color: var(--fx-ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fire-explorer .fx-bar-track {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fire-explorer .fx-bar-fill {
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  min-width: 3px;
+}
+
+.fire-explorer .fx-bar-count {
+  font-size: 12px;
+  color: var(--fx-ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* tooltip */
+
+.fire-explorer .fx-tip {
+  position: absolute;
+  z-index: 40;
+  pointer-events: none;
+  max-width: 240px;
+  background: #0b0d10;
+  border: 1px solid var(--fx-border);
+  color: var(--fx-ink);
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 6px 9px;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* chips */
+
+.fire-explorer .fx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fire-explorer .fx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--fx-ink-2);
+  background: var(--fx-panel);
+  border: 1px solid var(--fx-border);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+
+.fire-explorer .fx-chip:hover { border-color: var(--fx-ink-3); }
+
+.fire-explorer .fx-chip--active {
+  color: var(--fx-ink);
+  border-color: var(--fx-ink-3);
+  background: #1d232b;
+}
+
+.fire-explorer .fx-chip--all { color: var(--fx-ink-3); }
+
+/* switches */
+
+.fire-explorer .fx-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--fx-ink-2);
+}
+
+.fire-explorer .fx-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.fire-explorer .fx-switch-track {
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  background: #2a313b;
+  position: relative;
+  transition: background 140ms ease;
+  flex: 0 0 auto;
+}
+
+.fire-explorer .fx-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--fx-ink-2);
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.fire-explorer .fx-switch input:checked + .fx-switch-track {
+  background: var(--fx-accent);
+}
+
+.fire-explorer .fx-switch input:checked + .fx-switch-track .fx-switch-thumb {
+  transform: translateX(15px);
+  background: #fff;
+}
+
+/* fly-to */
+
+.fire-explorer .fx-fly {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fire-explorer .fx-fly-btn {
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--fx-ink);
+  background: var(--fx-panel);
+  border: 1px solid var(--fx-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.fire-explorer .fx-fly-btn:hover {
+  border-color: var(--fx-accent);
+  background: #1d232b;
+}
+
+/* credits */
+
+.fire-explorer .fx-credits {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--fx-border);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fire-explorer .fx-credit-link {
+  font-size: 11.5px;
+  color: var(--fx-ink-3);
+  text-decoration: none;
+}
+
+.fire-explorer .fx-credit-link:hover { color: var(--fx-ink-2); text-decoration: underline; }
+
+.fire-explorer .fx-license {
+  font-size: 11px;
+  color: var(--fx-ink-3);
+}
+
+/* ── map area ── */
+
+.fire-explorer .fx-main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: #000;
+}
+
+/* the embedded MapCompare + lonboard maps must fill the area
+   (scoped to .fx-main, not the mount div — its class gets overwritten
+   by the embedded widget's own render) */
+.fire-explorer .fx-main .manywidgets-mapcompare,
+.fire-explorer .fx-main .manywidgets-mapcompare__container {
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+.fire-explorer .fx-main .mc__map > *,
+.fire-explorer .fx-main .mc__map .lonboard,
+.fire-explorer .fx-main .mc__map > div {
+  height: 100% !important;
+}
+
+.fire-explorer .fx-map-label {
+  position: absolute;
+  top: 12px;
+  z-index: 20;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fx-ink);
+  background: rgba(11, 13, 16, 0.78);
+  border: 1px solid var(--fx-border);
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.fire-explorer .fx-map-label--before { left: 12px; }
+.fire-explorer .fx-map-label--after { right: 12px; }
+
+.fire-explorer .fx-map-label--nopre {
+  top: 52px;
+  left: 12px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-size: 11px;
+  color: #ffd9b8;
+  background: rgba(90, 45, 12, 0.85);
+  border-color: rgba(236, 131, 90, 0.45);
+}
+
+.fire-explorer .fx-attribution {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  z-index: 20;
+  font-size: 10.5px;
+  color: rgba(242, 244, 248, 0.75);
+  background: rgba(11, 13, 16, 0.6);
+  padding: 3px 8px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.fire-explorer .fx-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--fx-ink-3);
+}
+
+/* ── teaser card ── */
+
+.fire-explorer .fx-teaser {
+  background: linear-gradient(145deg, #171b21 0%, #10141a 55%, #191313 100%);
+  border: 1px solid var(--fx-border);
+  border-radius: 12px;
+  padding: 22px 24px 18px;
+  max-width: 640px;
+}
+
+.fire-explorer .fx-teaser-title {
+  margin-top: 6px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--fx-ink);
+}
+
+.fire-explorer .fx-teaser-sub {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: var(--fx-ink-2);
+  max-width: 48ch;
+}
+
+.fire-explorer .fx-teaser-stats {
+  display: flex;
+  gap: 26px;
+  margin-top: 18px;
+}
+
+.fire-explorer .fx-teaser-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.fire-explorer .fx-teaser-stat-label {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--fx-ink-2);
+}
+
+.fire-explorer .fx-teaser-hint {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fx-border);
+  font-size: 12.5px;
+  color: var(--fx-ink-3);
+}
