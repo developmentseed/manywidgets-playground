@@ -10,3 +10,4 @@ __marimo__
 .DS_Store
 
 2_Active_Data/
+notebooks/**/runs/
