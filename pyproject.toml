@@ -5,9 +5,8 @@ description = "Author and publish kernel-free interactive manywidgets notebooks 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    # For now: install from git (manywidgets not yet on PyPI). lonboard interop widgets included.
-    "manywidgets[lonboard,numpy] @ git+https://github.com/developmentseed/manywidgets",
-    # When published, replace the line above with:  "manywidgets[lonboard,numpy]>=0.1",
+    # 0.2.0a1 = first PyPI release with the Fullscreen widget + MapCompare.
+    "manywidgets[lonboard,numpy]>=0.2.0a1",
     "geopandas>=1.0",        # lonboard seed notebook
     "pyarrow>=16",           # geopandas -> arrow
     "jupyterlab>=4.2",
@@ -21,6 +20,7 @@ dependencies = [
     "rasterio>=1.5.0",
     "rio-cogeo>=7.0.2",
     "rasterstats>=0.21.0",
+    "pystac-client>=0.8",    # Montandon STAC API (monty_* + situation-room notebooks)
     "xarray>=2026.7.0",
     "lonboard>=0.16.0",
     "rioxarray>=0.23.0",
