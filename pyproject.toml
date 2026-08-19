@@ -26,6 +26,7 @@ dependencies = [
     "h3>=4.0",               # H3 hex grid (city-explorer)
     "scipy>=1.14",           # osmnx nearest_nodes needs a KDTree
     "scikit-learn>=1.5",     # osmnx nearest_nodes (unprojected graph BallTree)
+    "wigglystuff>=0.5",     # third-party anywidgets (wigglystuff interop notebook)
 ]
 
 [tool.uv]

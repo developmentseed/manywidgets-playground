@@ -36,6 +36,10 @@ Jupyter and publish them as a **static, kernel-free interactive site**.
   minutes to coffee, toilets, parks, groceries, pubs and transit. Apartment-hunt
   sliders drive a GPU filter live; a click-anywhere inspector draws spider lines
   to your nearest essentials — all kernel-free.
+- **[wigglystuff + manywidgets](notebooks/wigglystuff.ipynb)** — an interop
+  probe rather than a showcase: do [wigglystuff](https://koaning.github.io/wigglystuff/)
+  widgets survive our static export, and can they be linked to manywidgets ones?
+  (Short answers: yes, with no wrapper; and yes, in every direction.)
 
 New to the project? Start with **Welcome**, then crib from **Dashboard**. To make
 your own: `just new "my idea"`.
