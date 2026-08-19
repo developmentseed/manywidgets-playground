@@ -30,6 +30,12 @@ Jupyter and publish them as a **static, kernel-free interactive site**.
   STAC API in a mission-control UI — event log with impact details, hazard-type
   filters, weekly pulse chart, hazard footprints and NASA night lights, camera
   fly-tos — all kernel-free.
+- **[The Good Life Index](notebooks/city-explorer.ipynb)** — a third custom-ESM
+  `Fullscreen` app, and the playful one: Amsterdam vs New York, 22k extruded
+  Overture buildings in 3D, and every ~66 m hexagon scored by *network* walking
+  minutes to coffee, toilets, parks, groceries, pubs and transit. Apartment-hunt
+  sliders drive a GPU filter live; a click-anywhere inspector draws spider lines
+  to your nearest essentials — all kernel-free.
 
 New to the project? Start with **Welcome**, then crib from **Dashboard**. To make
 your own: `just new "my idea"`.
