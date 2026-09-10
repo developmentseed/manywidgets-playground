@@ -25,6 +25,12 @@ dependencies = [
     "lonboard>=0.16.0",
     "rioxarray>=0.23.0",
     "pandas>=3.0.3",
+    "duckdb>=1.1",           # Overture S3 GeoParquet queries (la-fires, city-explorer)
+    "osmnx>=2.0",            # OSM walk network + amenities (city-explorer)
+    "h3>=4.0",               # H3 hex grid (city-explorer)
+    "scipy>=1.14",           # osmnx nearest_nodes needs a KDTree
+    "scikit-learn>=1.5",     # osmnx nearest_nodes (unprojected graph BallTree)
+    "wigglystuff>=0.5",     # third-party anywidgets (wigglystuff interop notebook)
 ]
 
 [tool.uv]
