@@ -13,6 +13,7 @@ project:
   exclude:
     - templates/**
     - "**/.ipynb_checkpoints/**"
+    - "**/runs/**"                    # papermill per-country pipeline logs, not site pages
     - README.md                       # GitHub README; index.md is the site landing page
     - manywidgets-playground-PLAN.md  # build spec, not site content
 site:
